@@ -20,7 +20,7 @@ test('User can login with another valid username and password', async ({ page })
     expect(productListPage.productListPageIsVisible)
 })
 
-test('User can not login with invalid username but correct password', async ({ page }) => {
+test('User cannot login with invalid username but correct password', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
     await loginPage.openMerchandiseWebsite();
@@ -28,7 +28,7 @@ test('User can not login with invalid username but correct password', async ({ p
     expect(loginPage.errorMessageIsDisplayed('Invalid username or password.'))
 })
 
-test('User can not login with valid username but incorrect password', async ({ page }) => {
+test('User cannot login with valid username but incorrect password', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
     await loginPage.openMerchandiseWebsite();
@@ -36,7 +36,7 @@ test('User can not login with valid username but incorrect password', async ({ p
     expect(loginPage.errorMessageIsDisplayed('Invalid username or password.'))
 })
 
-test('User can not login without username and password', async ({ page }) => {
+test('User cannot login without username and password', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
     await loginPage.openMerchandiseWebsite();
