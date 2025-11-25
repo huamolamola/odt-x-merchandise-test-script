@@ -7,6 +7,8 @@ export class ProductListPage {
     readonly cartItemCount: Locator;
     readonly cart: Locator;
     readonly removeAddedProduct: Locator;
+    readonly productPrice: Locator;
+
 
     constructor(page: Page) {
         this.page = page;
@@ -15,6 +17,8 @@ export class ProductListPage {
         this.cart = page.getByTestId('cart').locator('#Layer_1');
         this.cartItemCount = page.getByTestId('cart-items-count')
         this.removeAddedProduct = page.getByTestId('remove-from-cart-button')
+        this.productPrice = page.getByTestId('price')
+
     }
 
     async productListPageIsVisible() {
@@ -29,6 +33,10 @@ export class ProductListPage {
         await this.addToCartButton.nth(1).click();
     }
 
+    async addAnotherProductToCart() {
+        await this.addToCartButton.nth(1).click();
+    }
+
     async removeOneProductFromCart() {
         await this.removeAddedProduct.first().click()
     }
@@ -40,5 +48,15 @@ export class ProductListPage {
     async clickToCartSummary() {
         await this.cart.click();
     }
+
+    async firstProductPrice() {
+        await this.productPrice.first().isVisible();
+    }
+
+    async secondProductPrice() {
+        await this.productPrice.nth(1).isVisible();
+    }
+
+
 
 }

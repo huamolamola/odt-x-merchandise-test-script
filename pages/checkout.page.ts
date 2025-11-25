@@ -8,6 +8,7 @@ export class CheckoutPage {
     readonly postalCodeInput: Locator;
     readonly confirmPaymentButton: Locator;
     readonly totalPriceText: Locator;
+    readonly errorMessage: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -17,6 +18,7 @@ export class CheckoutPage {
         this.postalCodeInput = page.getByTestId('zipcode-field')
         this.confirmPaymentButton = page.getByTestId('confirm-payment-button')
         this.totalPriceText = page.getByTestId('total-price')
+        this.errorMessage = page.getByTestId('error-message')
     }
 
     async fillCheckoutForm(firstName: string, lastName: string, email: string, postalCode: string) {
@@ -27,6 +29,14 @@ export class CheckoutPage {
     }
 
     async calculatedTotalPrice(amount: string) {
-        await this.totalPriceText.isVisible()
+        await this.totalPriceText.isVisible();
+    }
+
+    async clickConfirmPaymentButton() {
+        await this.confirmPaymentButton.click();
+    }
+
+    async errorMessageDisplay(message: string) {
+        await this.errorMessage.isVisible();
     }
 }

@@ -6,6 +6,7 @@ export class OrderSummaryPage {
     readonly subTotalPrice: Locator;
     readonly continueShoppingButton: Locator;
     readonly noItemInCartText: Locator;
+    readonly priceText: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -13,6 +14,7 @@ export class OrderSummaryPage {
         this.subTotalPrice = page.getByTestId('subtotal-price')
         this.continueShoppingButton = page.getByTestId('continue-shopping-link')
         this.noItemInCartText = page.getByTestId('empty-cart-container')
+        this.priceText = page.getByTestId('price')
     }
 
     async clickCheckoutButton() {
@@ -20,8 +22,14 @@ export class OrderSummaryPage {
         await this.checkoutButton.click();
     }
 
-    async displaySubTotalPrice(amount: string) {
-        await this.subTotalPrice.isVisible()
+    async displaySubTotalPrice(price: string) {
+        await this.subTotalPrice.isVisible();
+
+    }
+    async getSubTotalPrice() {
+        await this.subTotalPrice.isVisible();
+        const text = await this.subTotalPrice.innerText();
+        return parseFloat(text.replace(/[^0-9.]/g, ""));
     }
 
     async backToProductListPage() {
@@ -34,5 +42,23 @@ export class OrderSummaryPage {
 
     async noItemToCheckoutMessage(message: string) {
         await this.noItemInCartText.isVisible()
+    }
+
+    async firstProductPrice() {
+        await this.priceText.first().isVisible()
+    }
+
+    async secondProductPrice() {
+        await this.priceText.nth(1).isVisible()
+    }
+
+    async getCalculatedPrice() {
+        const firstText = (await this.priceText.first().innerText());
+        const secondText = (await this.priceText.nth(1).innerText());
+
+        const firstPrice = parseFloat(firstText.replace(/[^0-9.]/g, ""));
+        const secondPrice = parseFloat(secondText.replace(/[^0-9.]/g, ""));
+
+        return firstPrice + secondPrice;
     }
 }

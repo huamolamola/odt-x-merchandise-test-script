@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
 import { ProductListPage } from '../pages/product-list.page';
 
-test('User can login with valid username and password', async ({ page }) => {
+test('TC001: Login with valid credentials (customer1)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const productListPage = new ProductListPage(page);
 
@@ -11,7 +11,7 @@ test('User can login with valid username and password', async ({ page }) => {
     expect(productListPage.productListPageIsVisible)
 })
 
-test('User can login with another valid username and password', async ({ page }) => {
+test('TC001: Login with valid credentials (customer2)', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const productListPage = new ProductListPage(page);
 
@@ -20,7 +20,7 @@ test('User can login with another valid username and password', async ({ page })
     expect(productListPage.productListPageIsVisible)
 })
 
-test('User cannot login with invalid username but correct password', async ({ page }) => {
+test('TC003: Login with invalid username', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
     await loginPage.openMerchandiseWebsite();
@@ -28,7 +28,7 @@ test('User cannot login with invalid username but correct password', async ({ pa
     expect(loginPage.errorMessageIsDisplayed('Invalid username or password.'))
 })
 
-test('User cannot login with valid username but incorrect password', async ({ page }) => {
+test('TC004: Login with invalid password', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
     await loginPage.openMerchandiseWebsite();
@@ -36,10 +36,10 @@ test('User cannot login with valid username but incorrect password', async ({ pa
     expect(loginPage.errorMessageIsDisplayed('Invalid username or password.'))
 })
 
-test('User cannot login without username and password', async ({ page }) => {
+test('TC005: Login with empty credentials', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
     await loginPage.openMerchandiseWebsite();
-    await loginPage.loginWithoutUsernameAndPassword()
+    await loginPage.loginWithoutUsernameAndPassword('', '')
     expect(loginPage.errorMessageIsDisplayed('Invalid username or password.'))
 })

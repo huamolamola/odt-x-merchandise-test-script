@@ -4,9 +4,7 @@ import { ProductListPage } from '../pages/product-list.page';
 import { OrderSummaryPage } from '../pages/order-summary.page';
 import { CheckoutPage } from '../pages/checkout.page';
 
-
-
-test('User add a product to cart', async ({ page }) => {
+test('TC006: Add product to cart', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const productListPage = new ProductListPage(page);
 
@@ -18,7 +16,7 @@ test('User add a product to cart', async ({ page }) => {
     expect(await productListPage.itemInCart('1'))
 })
 
-test('Cart order will be automatically updated when user remove product from cart', async ({ page }) => {
+test('TC007: Update product quantity in cart', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const productListPage = new ProductListPage(page);
     const orderSummaryPage = new OrderSummaryPage(page);
@@ -44,7 +42,7 @@ test('Cart order will be automatically updated when user remove product from car
     expect(await checkOutPage.calculatedTotalPrice('220.63'))
 })
 
-test('User cannot checkout order with empty cart', async ({ page }) => {
+test('TC008: Remove product from cart', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const productListPage = new ProductListPage(page);
     const orderSummaryPage = new OrderSummaryPage(page);
@@ -67,7 +65,7 @@ test('User cannot checkout order with empty cart', async ({ page }) => {
 })
 
 
-test('User remove order from cart then the cart will be empty', async ({ page }) => {
+test('TC009: View empty cart', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const productListPage = new ProductListPage(page);
     const orderSummaryPage = new OrderSummaryPage(page);
@@ -88,4 +86,26 @@ test('User remove order from cart then the cart will be empty', async ({ page })
     await productListPage.clickToCartSummary()
     expect(await orderSummaryPage.displaySubTotalPrice('0.00'))
     expect(await orderSummaryPage.noItemToCheckoutMessage('No item in cart.'))
+})
+
+test('TC010: Add multiple products to cart', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const productListPage = new ProductListPage(page);
+    const orderSummaryPage = new OrderSummaryPage(page);
+
+    await loginPage.openMerchandiseWebsite();
+    await loginPage.loginWithUsernameAndPassword('customer1', 'password')
+    await productListPage.productListPageIsVisible()
+
+    await productListPage.addOneProductToCart()
+    expect(await productListPage.itemInCart('1'))
+
+    await productListPage.addAnotherProductToCart()
+    expect(await productListPage.itemInCart('2'))
+
+    await productListPage.clickToCartSummary()
+
+    expect(await orderSummaryPage.getCalculatedPrice())
+        .toEqual(await orderSummaryPage.getSubTotalPrice());
+
 })

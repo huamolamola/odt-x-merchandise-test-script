@@ -9,7 +9,7 @@ export class LoginPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.errorMessage = page.getByTestId('error-message-label')
+        this.errorMessage = page.getByTestId('error-message')
         this.loginButton = page.getByTestId('submit-button')
         this.usernameInputField = page.getByTestId('login-field')
         this.passwordInputField = page.getByTestId('password-field')
@@ -25,7 +25,9 @@ export class LoginPage {
         await this.loginButton.click();
     }
 
-    async loginWithoutUsernameAndPassword() {
+    async loginWithoutUsernameAndPassword(username: string, password: string) {
+        await this.usernameInputField.fill(username);
+        await this.passwordInputField.fill(password);
         await this.loginButton.click();
     }
 

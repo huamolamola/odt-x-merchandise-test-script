@@ -6,6 +6,10 @@ export class PurchaseSuccessPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.thankyouMessage = page.locator('div[id="thank-you-container"]')
+        this.thankyouMessage = page.getByTestId('thank-you-container')
+    }
+
+    async thankYouForYourOrderMessage() {
+        await this.thankyouMessage.isVisible();
     }
 }
